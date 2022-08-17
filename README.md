@@ -8,7 +8,7 @@ Application features:
 - control of person taken books, attach and detach books from people;
 - correct input data validation from the user;
 
-It will help you if you have a small library and give books to your friends😂😂😂
+It will help you if you have a small library and give books to your friends😂😂😂😂
 
 Technology stack used during development: ✅Java ✅Spring (MVC, Core
 ✅JdbcTemplate✅PostgreSQL ✅Hibernate-validator✅Thymeleaf ✅HTML/CSS  ✅Maven
