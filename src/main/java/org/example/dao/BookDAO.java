@@ -28,8 +28,8 @@ public class BookDAO {
     }
 
     public Book show(int id) {
-        return jdbcTemplate.query("SELECT * FROM book WHERE id =?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class)).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT * FROM book WHERE id =?",
+                new BeanPropertyRowMapper<>(Book.class), id).stream().findAny().orElse(null);
     }
 
     public void save(Book book) {
@@ -48,8 +48,8 @@ public class BookDAO {
 
 //Join Book and Person tables and get the person who owns the book with the specified id
     public Optional<Person> getBookOwner(int id) {
-        return jdbcTemplate.query("SELECT person.* FROM book JOIN person ON book.person_id = person.id " +
-                "WHERE book.id = ?", new Object[]{id}, new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        return jdbcTemplate.query("SELECT person.* FROM book JOIN person ON book.person_id = " +
+                "person.id WHERE book.id = ?", new BeanPropertyRowMapper<>(Person.class), id ).stream().findAny();
     }
 
 //Releases the book (this method is called when a person returns a book to the library)

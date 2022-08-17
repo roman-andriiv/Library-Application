@@ -26,8 +26,8 @@ public class PersonDAO {
         return jdbcTemplate.query("SELECT * FROM person", new BeanPropertyRowMapper<>(Person.class));
     }
     public Person show(int id){
-        return jdbcTemplate.query("SELECT * FROM person WHERE id =?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny().orElse(null);
+        return jdbcTemplate.query("SELECT * FROM person WHERE id =?",
+                new BeanPropertyRowMapper<>(Person.class), id).stream().findAny().orElse(null);
     }
 
     public void save(Person person) {
@@ -46,12 +46,12 @@ public class PersonDAO {
 
     //for the uniqueness validation of the full name
     public Optional<Person> getPersonByFullName(String fullName) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?", new Object[]{fullName},
-                new BeanPropertyRowMapper<>(Person.class)).stream().findAny();
+        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
+                new BeanPropertyRowMapper<>(Person.class), fullName).stream().findAny();
     }
 
     public List<Book> getBooksByPersonId(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?", new Object[]{id},
-                new BeanPropertyRowMapper<>(Book.class));
+        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?",
+                new BeanPropertyRowMapper<>(Book.class), id);
     }
 }
