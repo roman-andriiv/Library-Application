@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <title>SHOW</title>
+    <title>SHOW PEOPLE</title>
 </head>
 <body>
 <p th:text="${person.getFullName() + ', ' + person.getYearOfBirth()}">VALUE</p>
@@ -28,7 +28,7 @@
 </form>
 
 <form th:method="DELETE" th:action="@{/people/{id}(id=${person.getId()})}">
-    <input type="submit" value="Delete">
+    <input type="submit" value="DELETE">
 </form>
 </body>
 </html>

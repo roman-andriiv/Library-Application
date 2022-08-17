@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <title>SHOW</title>
+    <title>SHOW BOOKS</title>
 </head>
 <body>
 <p th:text="${book.getTitle() + ', ' + book.getAuthor() + ', ' + book.getYear()}">VALUE</p>
@@ -12,7 +12,7 @@
     <span th:text="${owner.getFullName()}">Person Name</span> <span> has the book now</span>
 
     <form th:method="PATCH" th:action="@{/books/{id}/release(id=${book.getId()})}">
-        <input type="submit" value="Release this book" />
+        <input type="submit" value="RELEASE THIS BOOK" />
     </form>
 </div>
 
@@ -24,7 +24,7 @@
             <option th:each="person : ${people}" th:value="${person.getId()}" th:text="${person.getFullName()}">
             </option>
         </select>
-        <input type="submit" value="Assign book"/>
+        <input type="submit" value="ASSIGN A BOOK"/>
     </form>
 </div>
 
