@@ -53,3 +53,4 @@ build/
 /src/main/resources/database.properties
 
 /.idea/jpa-buddy.xml
+/src/main/resources/hibernate.properties
