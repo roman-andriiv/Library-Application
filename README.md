@@ -11,8 +11,7 @@ Application features:
 It will help you if you have a small library and give books to your friends😂😂😂😂
 
 Technology stack used during development: ✅Java ✅Spring (MVC, Core)
-✅JdbcTemplate ✅PostgreSQL <br />
-✅Hibernate-validator ✅Thymeleaf ✅HTML/CSS  ✅Maven
+ ✅PostgreSQL ✅JdbcTemplate ✅Hibernate ✅Hibernate-validator ✅Thymeleaf ✅HTML/CSS  ✅Maven
 <br />
 
 Web-application schema:
