@@ -32,6 +32,10 @@ public class Book {
     @Column(name="year")
     private int year;
 
+    @ManyToOne
+    @JoinColumn(name = "person_id", referencedColumnName = "id")
+    private Person owner;
+
     public Book() {
     }
 
@@ -71,5 +75,24 @@ public class Book {
 
     public void setYear(int year) {
         this.year = year;
+    }
+
+    public Person getOwner() {
+        return owner;
+    }
+
+    public void setOwner(Person owner) {
+        this.owner = owner;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", year=" + year +
+                ", owner=" + owner +
+                '}';
     }
 }

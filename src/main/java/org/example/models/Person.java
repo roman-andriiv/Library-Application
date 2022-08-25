@@ -2,6 +2,7 @@ package org.example.models;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
+import java.util.List;
 
 
 /**
@@ -23,6 +24,9 @@ public class Person {
     @Min(value = 1900, message = "Age should be greater than 1900")
     @Column(name = "year_of_birth")
     private int yearOfBirth;
+
+    @OneToMany(mappedBy ="owner")
+    private List<Book> books;
 
     public Person() {
     }
@@ -55,6 +59,14 @@ public class Person {
 
     public void setYearOfBirth(int yearOfBirth) {
         this.yearOfBirth = yearOfBirth;
+    }
+
+    public List<Book> getBooks() {
+        return books;
+    }
+
+    public void setBooks(List<Book> books) {
+        this.books = books;
     }
 
     @Override
