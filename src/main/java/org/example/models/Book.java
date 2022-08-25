@@ -34,7 +34,7 @@ public class Book {
 
     @ManyToOne
     @JoinColumn(name = "person_id", referencedColumnName = "id")
-    private Person owner;
+    private Person bookOwner;
 
     public Book() {
     }
@@ -77,12 +77,12 @@ public class Book {
         this.year = year;
     }
 
-    public Person getOwner() {
-        return owner;
+    public Person getBookOwner() {
+        return bookOwner;
     }
 
-    public void setOwner(Person owner) {
-        this.owner = owner;
+    public void setBookOwner(Person bookOwner) {
+        this.bookOwner = bookOwner;
     }
 
     @Override
@@ -92,7 +92,7 @@ public class Book {
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
                 ", year=" + year +
-                ", owner=" + owner +
+                ", owner=" + bookOwner +
                 '}';
     }
 }

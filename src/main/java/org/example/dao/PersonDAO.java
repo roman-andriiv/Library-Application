@@ -58,10 +58,11 @@ public class PersonDAO {
         personToBeUpdated.setYearOfBirth(updatedPerson.getYearOfBirth());
     }
 
+    @Transactional
     public void delete(int id) {
 
-        Session session =sessionFactory.getCurrentSession();
-        session.delete(session.get(Person.class, id));
+        Session session = sessionFactory.getCurrentSession();
+        session.remove(session.get(Person.class, id));
     }
 
     //for the uniqueness validation of the full name
