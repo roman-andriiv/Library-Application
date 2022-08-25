@@ -1,5 +1,8 @@
 package org.example.models;
 
+import org.hibernate.annotations.Tables;
+
+import javax.persistence.*;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
@@ -7,17 +10,26 @@ import javax.validation.constraints.Size;
 /**
  * @author Roman_Andriiv
  */
+@Entity
+@Table(name = "Book")
 public class Book {
+    @Id
+    @Column(name="id")
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
-    @NotEmpty(message ="Book title ")
+
+    @NotEmpty(message = "Book title ")
     @Size(min = 2, max = 100, message = "Book title should not be empty must be between 2 and 100 characters long")
+    @Column(name="title")
     private String title;
 
     @NotEmpty(message = "Author should not be empty")
     @Size(min = 2, max = 100, message = "Author name must be between 2 and 100 characters long")
+    @Column(name="author")
     private String author;
 
     @Min(value = 1700, message = "Year must be greater than 1700")
+    @Column(name="year")
     private int year;
 
     public Book() {
