@@ -15,4 +15,4 @@ Technology stack used during development: ✅Java ✅Spring (MVC, Core)
 <br />
 
 Web-application schema:
-![ScreenShot](https://user-images.githubusercontent.com/63511356/184003913-14f534f8-fa37-4a38-9795-9b6263896a2f.png)
+![Blank Diagram](https://user-images.githubusercontent.com/63511356/187211853-2b7c2ace-0683-4e4e-b925-44675fcae28e.png)
