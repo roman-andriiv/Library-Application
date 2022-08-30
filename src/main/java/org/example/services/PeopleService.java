@@ -3,12 +3,13 @@ package org.example.services;
 import org.example.models.Book;
 import org.example.models.Person;
 import org.example.repositories.PeopleRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Collections;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,21 +20,19 @@ import java.util.Optional;
 @Transactional(readOnly = true)
 public class PeopleService {
     private final PeopleRepository peopleRepository;
-    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public PeopleService(PeopleRepository peopleRepository, JdbcTemplate jdbcTemplate) {
+    public PeopleService(PeopleRepository peopleRepository) {
         this.peopleRepository = peopleRepository;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
 
-    public List<Person> index() {
+    public List<Person> findAll() {
         return peopleRepository.findAll();
     }
 
 
-    public Person show(int id) {
+    public Person findOne(int id) {
         Optional<Person> person = peopleRepository.findById(id);
         return person.orElse(null);
     }
@@ -56,12 +55,23 @@ public class PeopleService {
 
     //for the uniqueness validation of the full name
     public Optional<Person> getPersonByFullName(String fullName) {
-        return jdbcTemplate.query("SELECT * FROM Person WHERE full_name=?",
-                new BeanPropertyRowMapper<>(Person.class), fullName).stream().findAny();
+        return peopleRepository.findByFullName(fullName);
     }
 
     public List<Book> getBooksByPersonId(int id) {
-        return jdbcTemplate.query("SELECT * FROM Book WHERE person_id = ?",
-                new BeanPropertyRowMapper<>(Book.class), id);
+        Optional<Person> person = peopleRepository.findById(id);
+
+        if (person.isPresent()) {
+            Hibernate.initialize(person.get().getBooks());
+
+            person.get().getBooks().forEach(book -> {
+                long diffInMillies = Math.abs(book.getTakenAt().getTime() - new Date().getTime());
+                //864000000 milliseconds = 10 days
+                if (diffInMillies>864000000)
+                    book.setExpired(true); //book is expired
+            });
+            return person.get().getBooks();
+        }else
+            return Collections.emptyList();
     }
 }

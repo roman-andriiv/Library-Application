@@ -1,7 +1,7 @@
 package org.example.controllers;
 
-import org.example.services.PeopleService;
 import org.example.models.Person;
+import org.example.services.PeopleService;
 import org.example.util.PersonValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -31,14 +31,14 @@ public class PeopleController {
     @GetMapping
     public String index(Model model) {
         // get all people from the DAO and reflect on the presentation
-        model.addAttribute("people", peopleService.index());
+        model.addAttribute("people", peopleService.findAll());
         return "people/index";
     }
 
     @GetMapping("/{id}")
     public String show(@PathVariable("id") int id, Model model) {
         //get a person by "id" from the DAO and reflect on the presentation
-        model.addAttribute("person", peopleService.show(id));
+        model.addAttribute("person", peopleService.findOne(id));
         model.addAttribute("books", peopleService.getBooksByPersonId(id));
         return "people/show";
     }
@@ -60,7 +60,7 @@ public class PeopleController {
 
     @GetMapping("/{id}/edit")
     public String edit(Model model, @PathVariable("id") int id) {
-        model.addAttribute("person", peopleService.show(id));
+        model.addAttribute("person", peopleService.findOne(id));
         return "people/edit";
     }
 

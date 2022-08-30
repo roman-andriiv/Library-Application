@@ -1,9 +1,9 @@
 package org.example.controllers;
 
-import org.example.services.BookService;
-import org.example.services.PeopleService;
 import org.example.models.Book;
 import org.example.models.Person;
+import org.example.services.BookService;
+import org.example.services.PeopleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,7 +45,7 @@ public class BookController {
         if (bookOwner.isPresent()) {
             model.addAttribute("owner", bookOwner.get());
         } else {
-            model.addAttribute("people", peopleService.index());
+            model.addAttribute("people", peopleService.findAll());
         }
         return "books/show";
     }
