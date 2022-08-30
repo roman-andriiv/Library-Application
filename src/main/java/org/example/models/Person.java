@@ -1,7 +1,9 @@
 package org.example.models;
 
 import javax.persistence.*;
-import javax.validation.constraints.*;
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 
@@ -67,13 +69,5 @@ public class Person {
 
     public void setBooks(List<Book> books) {
         this.books = books;
-    }
-
-    @Override
-    public String toString() {
-        return "Person{" +
-                "fullName='" + fullName + '\'' +
-                ", yearOfBirth=" + yearOfBirth +
-                '}';
     }
 }
