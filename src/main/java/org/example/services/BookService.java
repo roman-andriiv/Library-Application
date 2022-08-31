@@ -4,11 +4,12 @@ import org.example.models.Book;
 import org.example.models.Person;
 import org.example.repositories.BooksRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -20,22 +21,33 @@ import java.util.Optional;
 public class BookService {
 
     private final BooksRepository booksRepository;
-    private final JdbcTemplate jdbcTemplate;
 
     @Autowired
-    public BookService(BooksRepository booksRepository, JdbcTemplate jdbcTemplate) {
+    public BookService(BooksRepository booksRepository) {
         this.booksRepository = booksRepository;
-        this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<Book> index() {
-        return booksRepository.findAll();
+    public List<Book> findAll(boolean sortByYear) {
+        if (sortByYear)
+            return booksRepository.findAll(Sort.by("year"));
+        else
+            return booksRepository.findAll();
     }
 
-    public Book show(int id) {
+    public List<Book> findWithPagination(Integer page, Integer booksPerPage, boolean sortByYear) {
+        if (sortByYear)
+            return booksRepository.findAll(PageRequest.of(page, booksPerPage, Sort.by("year"))).getContent();
+        else
+            return booksRepository.findAll(PageRequest.of(page, booksPerPage)).getContent();
+    }
 
+    public Book findOne(int id) {
         Optional<Book> foundBook = booksRepository.findById(id);
         return foundBook.orElse(null);
+    }
+
+    public List<Book> searchByTitle(String query){
+        return booksRepository.findByTitleStartingWith(query);
     }
 
     @Transactional
@@ -45,28 +57,37 @@ public class BookService {
 
     @Transactional
     public void update(int id, Book updatedBook) {
+        Book bookToBeUpdated = booksRepository.findById(id).get();
+
         updatedBook.setId(id);
+        updatedBook.setBookOwner(bookToBeUpdated.getBookOwner());
+
         booksRepository.save(updatedBook);
     }
-
     @Transactional
     public void delete(int id) {
         booksRepository.deleteById(id);
     }
 
-    //Join Book and Person tables and get the person who owns the book with the specified id
-    public Optional<Person> getBookOwner(int id) {
-        return jdbcTemplate.query("SELECT person.* FROM book JOIN person ON book.person_id = " +
-                "person.id WHERE book.id = ?", new BeanPropertyRowMapper<>(Person.class), id).stream().findAny();
+    //Return null if book has no owner
+    public Person getBookOwner(int id) {
+        return booksRepository.findById(id).map(Book::getBookOwner).orElse(null);
     }
 
     //Releases the book (this method is called when a person returns a book to the library)
     public void release(int id) {
-        jdbcTemplate.update("UPDATE book SET person_id=NULL WHERE id =?", id);
+        booksRepository.findById(id).ifPresent(
+                book -> {
+                    book.setBookOwner(null);
+                    book.setTakenAt(null);
+                });
     }
 
     //Assigns a book to a person (this method is called when a person checks out a book from the library)
     public void assign(int id, Person selectedPerson) {
-        jdbcTemplate.update("UPDATE book SET person_id=? WHERE id=?", selectedPerson.getId(), id);
+        booksRepository.findById(id).ifPresent(book -> {
+                    book.setBookOwner(selectedPerson);
+                    book.setTakenAt(new Date());
+        });
     }
 }
