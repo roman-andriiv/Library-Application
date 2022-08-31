@@ -17,7 +17,7 @@ public class Book {
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     private int id;
 
-    @NotEmpty(message = "Book title ")
+    @NotEmpty(message = "Book title should not be empty")
     @Size(min = 2, max = 100, message = "Book title should not be empty must be between 2 and 100 characters long")
     @Column(name="title")
     private String title;

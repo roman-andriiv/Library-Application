@@ -75,6 +75,7 @@ public class BookService {
     }
 
     //Releases the book (this method is called when a person returns a book to the library)
+    @Transactional
     public void release(int id) {
         booksRepository.findById(id).ifPresent(
                 book -> {
@@ -84,6 +85,7 @@ public class BookService {
     }
 
     //Assigns a book to a person (this method is called when a person checks out a book from the library)
+    @Transactional
     public void assign(int id, Person selectedPerson) {
         booksRepository.findById(id).ifPresent(book -> {
                     book.setBookOwner(selectedPerson);

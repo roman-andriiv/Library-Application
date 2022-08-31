@@ -46,7 +46,7 @@ public class BookController {
         Person bookOwner = bookService.getBookOwner(id);
 
         if (bookOwner != null) {
-            model.addAttribute("owner", bookOwner);
+            model.addAttribute("bookOwner", bookOwner);
         } else {
             model.addAttribute("people", peopleService.findAll());
         }
