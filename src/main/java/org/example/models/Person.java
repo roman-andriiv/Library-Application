@@ -36,7 +36,6 @@ public class Person {
     public Person(String fullName, int yearOfBirth) {
         this.fullName = fullName;
         this.yearOfBirth = yearOfBirth;
-
     }
 
     public int getId() {
